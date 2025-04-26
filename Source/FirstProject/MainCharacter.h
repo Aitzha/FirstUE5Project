@@ -3,7 +3,13 @@
 
 #include "CoreMinimal.h"
 #include "CharacterBase.h"
+#include "InputActionValue.h"
 #include "MainCharacter.generated.h"
+
+class UFloatingPawnMovement;
+struct FInputActionValue;
+class UInputAction;
+class UInputMappingContext;
 
 UCLASS(Blueprintable)
 class FIRSTPROJECT_API AMainCharacter : public ACharacterBase
@@ -13,4 +19,25 @@ class FIRSTPROJECT_API AMainCharacter : public ACharacterBase
 public:
 	AMainCharacter() = delete;
 	AMainCharacter(const FObjectInitializer& ObjectInitializer);
+
+protected:
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+
+	void Move(const FInputActionValue& Value);
+	void Jump(const FInputActionValue& Value);
+	void DropDown(const FInputActionValue& Value);
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputMappingContext* InputMappingContext;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* MoveAction;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* JumpAction;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* DropDownAction;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UFloatingPawnMovement* MovementComponent;
 };

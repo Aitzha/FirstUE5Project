@@ -9,7 +9,7 @@ class UPaperSpriteComponent;
 class UHealthComponent;
 
 UCLASS(Abstract, NotBlueprintable)
-class FIRSTPROJECT_API ACharacterBase : public AActor
+class FIRSTPROJECT_API ACharacterBase : public APawn
 {
 	GENERATED_BODY()
 	
@@ -20,6 +20,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UHealthComponent* HealthComponent;
