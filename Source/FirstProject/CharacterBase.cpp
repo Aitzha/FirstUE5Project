@@ -1,27 +1,42 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CharacterBase.h"
+#include "HealthComponent.h"
+#include "PaperSpriteComponent.h"
+#include "Components/BoxComponent.h"
 
-// Sets default values
-ACharacterBase::ACharacterBase()
+ACharacterBase::ACharacterBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
+	RootComponent = BoxComponent;
 
+	// Enable physics 
+	BoxComponent->SetSimulatePhysics(true);
+	BoxComponent->SetEnableGravity(true);
+	BoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	BoxComponent->SetCollisionResponseToAllChannels(ECR_Block);
+	BoxComponent->SetCollisionObjectType(ECC_PhysicsBody);
+
+	// Restrict rotation and Y motion
+	BoxComponent->BodyInstance.bLockXRotation = true;
+	BoxComponent->BodyInstance.bLockYRotation = true;
+	BoxComponent->BodyInstance.bLockZRotation = true;
+	BoxComponent->BodyInstance.bLockYTranslation = true;
+
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
+	
+	SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("SpriteComponent"));
+	SpriteComponent->SetupAttachment(RootComponent);
+	SpriteComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
-// Called when the game starts or when spawned
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
-// Called every frame
 void ACharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
