@@ -32,9 +32,9 @@ protected:
     UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
     AMainCharacter* PlayerCharacter = nullptr;
     UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-    FVector FloorLocation;
+    float ZDistanceFromCharacter;
     UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-    float ZDistanceBetweenCharacterAndPlatform;
+    float FloorZPos;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
     UPrimitiveComponent* PlatformComponent;

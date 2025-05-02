@@ -24,8 +24,7 @@ void APlatformBase::BeginPlay()
 	Super::BeginPlay();
 	PlayerCharacter = Cast<AMainCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
     SetActorTickEnabled(false);
-    FloorLocation = PlatformComponent->GetComponentLocation();
-    FloorLocation.Z += PlatformComponent->GetLocalBounds().GetBox().GetExtent().Z / 2;
+	FloorZPos = PlatformComponent->GetComponentLocation().Z + PlatformComponent->GetLocalBounds().GetBox().GetExtent().Z / 2;
 }
 
 void APlatformBase::Tick(float DeltaTime)
@@ -33,9 +32,9 @@ void APlatformBase::Tick(float DeltaTime)
     Super::Tick(DeltaTime);
     if (!PlayerCharacter) return;
     if (!PlatformComponent) return;
-    FloorLocation = PlatformComponent->GetComponentLocation();
-    FloorLocation.Z += PlatformComponent->GetLocalBounds().GetBox().GetExtent().Z / 2;
-	ZDistanceBetweenCharacterAndPlatform = -(FloorLocation.Z - PlayerCharacter->GetCapsuleComponent()->GetComponentLocation().Z);
+	FloorZPos = PlatformComponent->GetComponentLocation().Z + PlatformComponent->GetLocalBounds().GetBox().GetExtent().Z / 2;
+	const float PlayerLegsZPos = PlayerCharacter->GetCapsuleComponent()->GetComponentLocation().Z - PlayerCharacter->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+	ZDistanceFromCharacter = -(FloorZPos - PlayerLegsZPos);
     static float Timer = 0;
     if (bIsCharacterMovingDown)
     {
@@ -49,7 +48,7 @@ void APlatformBase::Tick(float DeltaTime)
     }
     else
     {
-        if (ZDistanceBetweenCharacterAndPlatform < 0)
+        if (ZDistanceFromCharacter < 0)
         {
             PlatformComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
         }

@@ -32,29 +32,29 @@ void ABreakablePlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	const float XDistanceBetweenCharacterAndPlatform = FMath::Abs(-(FloorLocation.X - PlayerCharacter->GetCapsuleComponent()->GetComponentLocation().X));
-	bool CharacterWithinThePlatform = XDistanceBetweenCharacterAndPlatform < PlatformComponent->GetLocalBounds().GetBox().GetExtent().X + PlayerCharacter->GetCapsuleComponent()->GetUnscaledCapsuleRadius();
-	if (ZDistanceBetweenCharacterAndPlatform > 0 && CharacterWithinThePlatform)
-	{
-		bPlayerTouchedPlatform = true;
-		bIsBreaking = true;
-		BreakTimer += DeltaTime;
-		if (BreakTimer >= BreakStageDuration)
-		{
-			UpdateBreakStage();
-			BreakTimer = 0.0f;
-		}
-	}
-	else
-	{
-		if (bPlayerTouchedPlatform)
-		{
-			BreakPlatform();
-		}
-		
-		bIsBreaking = false;
-		BreakTimer = 0.0f;
-	}
+	// const float XDistanceBetweenCharacterAndPlatform = FMath::Abs(-(FloorLocation.X - PlayerCharacter->GetCapsuleComponent()->GetComponentLocation().X));
+	// bool CharacterWithinThePlatform = XDistanceBetweenCharacterAndPlatform < PlatformComponent->GetLocalBounds().GetBox().GetExtent().X + PlayerCharacter->GetCapsuleComponent()->GetUnscaledCapsuleRadius();
+	// if (ZDistanceFromCharacter > 0 && CharacterWithinThePlatform)
+	// {
+	// 	bPlayerTouchedPlatform = true;
+	// 	bIsBreaking = true;
+	// 	BreakTimer += DeltaTime;
+	// 	if (BreakTimer >= BreakStageDuration)
+	// 	{
+	// 		UpdateBreakStage();
+	// 		BreakTimer = 0.0f;
+	// 	}
+	// }
+	// else
+	// {
+	// 	if (bPlayerTouchedPlatform)
+	// 	{
+	// 		BreakPlatform();
+	// 	}
+	// 	
+	// 	bIsBreaking = false;
+	// 	BreakTimer = 0.0f;
+	// }
 }
 
 void ABreakablePlatform::UpdateBreakStage()
