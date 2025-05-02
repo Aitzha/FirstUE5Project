@@ -1,13 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "BreakablePlatform.h"
-
-#include "MainCharacter.h"
 #include "PaperSpriteComponent.h"
 #include "PaperFlipbookComponent.h"
-#include "Components/CapsuleComponent.h"
 #include "Components/BoxComponent.h"
+#include "PaperFlipbook.h"
+#include "Components/CapsuleComponent.h"
 
 ABreakablePlatform::ABreakablePlatform(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer), SpriteComponent{ CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("SpriteComponent")) }
@@ -29,7 +27,7 @@ void ABreakablePlatform::BeginPlay()
 	if (FlipbookComponent && BreakFlipbook)
 	{
 		FlipbookComponent->SetFlipbook(BreakFlipbook);
-		FlipbookComponent->SetLooping(false); // CHANGE HERE: Added this line
+		FlipbookComponent->SetLooping(false);
 		FlipbookComponent->Stop();
 	}
 }
@@ -37,14 +35,13 @@ void ABreakablePlatform::BeginPlay()
 void ABreakablePlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	// CHANGE HERE: Removed bIsFlipbookPlaying check
 	
 	const float XDistanceBetwennCharacterAndPlatform = FMath::Abs(-(FloorLocation.X - PlayerCharacter->GetCapsuleComponent()->GetComponentLocation().X));
 	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Emerald, FString::FromInt(XDistanceBetwennCharacterAndPlatform));
 	bool CharacterWithinThePlatform = XDistanceBetwennCharacterAndPlatform < PlatformComponent->GetLocalBounds().GetBox().GetExtent().X + PlayerCharacter->GetCapsuleComponent()->GetUnscaledCapsuleRadius();
 	if (ZDistanceBetweenCharacterAndPlatform > 0 && CharacterWithinThePlatform)
 	{
-		bPlayerTouchedPlatform = true; // CHANGE HERE: Added this line
+		bPlayerTouchedPlatform = true;
 		bIsBreaking = true;
 		BreakTimer += DeltaTime;
 		if (BreakTimer >= BreakStageDuration)
@@ -55,7 +52,7 @@ void ABreakablePlatform::Tick(float DeltaTime)
 	}
 	else
 	{
-		if (bPlayerTouchedPlatform) // CHANGE HERE: Added this if statement
+		if (bPlayerTouchedPlatform)
 		{
 			BreakPlatform();
 		}

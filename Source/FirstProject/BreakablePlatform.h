@@ -1,14 +1,12 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright Epic Games, Inc. All Rights Reserved.
 #pragma once
 
 #include "CoreMinimal.h"
 #include "PlatformBase.h"
-#include "PaperSprite.h"
-#include "PaperFlipbook.h"
 #include "BreakablePlatform.generated.h"
 
-
+class UPaperSprite;
+class UPaperFlipbook;
 class UPaperFlipbookComponent;
 
 UCLASS(Blueprintable)
@@ -23,19 +21,19 @@ protected:
 
 private:
 	void UpdateBreakStage();
-	void BreakPlatform(); // CHANGE HERE: Renamed to BreakPlatform cuz it does more than play flipbook now
+	void BreakPlatform();
 	void ResetPlatform();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters", meta = (AllowPrivateAccess = "true"))
 	TArray<UPaperSprite*> BreakStagesSprites;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters", meta = (AllowPrivateAccess = "true"))
-	UPaperFlipbook* BreakFlipbook;
+	UPaperFlipbook* BreakFlipbook = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters", meta = (AllowPrivateAccess = "true"))
 	float BreakStageDuration = 1.0f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters", meta = (AllowPrivateAccess = "true"))
-	bool bIsSingleUse = true; // CHANGE HERE: Added new parameter
+	bool bIsSingleUse = true;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters", meta = (AllowPrivateAccess = "true"))
-	float PlatformResetTime = 5.0f; // CHANGE HERE: Added new parameter
+	float PlatformResetTime = 5.0f;
 
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	UPaperSpriteComponent* SpriteComponent = nullptr;
@@ -47,7 +45,6 @@ private:
 	float BreakTimer = 0.0f;
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	bool bIsBreaking = false;
-	// CHANGE HERE: Removed bIsFlipbookPlaying variable
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	bool bPlayerTouchedPlatform = false; // CHANGE HERE: Added new variable
+	bool bPlayerTouchedPlatform = false;
 };

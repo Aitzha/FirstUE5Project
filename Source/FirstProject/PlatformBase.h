@@ -1,11 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright Epic Games, Inc. All Rights Reserved.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MainCharacter.h"
 #include "PlatformBase.generated.h"
 
-class AMainCharacter;
 class UPrimitiveComponent;
 class UBoxComponent;
 class UPaperSpriteComponent;
