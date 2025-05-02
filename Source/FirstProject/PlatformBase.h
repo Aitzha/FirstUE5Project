@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PlayerCharacter.h"
 #include "PlatformBase.generated.h"
 
+class AMainCharacter;
 class UPrimitiveComponent;
 class UBoxComponent;
 class UPaperSpriteComponent;
@@ -31,7 +31,7 @@ protected:
     UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
     bool bIsCharacterMovingDown = false;
     UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-    APlayerCharacter* PlayerCharacter = nullptr;
+    AMainCharacter* PlayerCharacter = nullptr;
     UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
     FVector FloorLocation;
     UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))

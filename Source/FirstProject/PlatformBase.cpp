@@ -3,6 +3,7 @@
 
 #include "PlatformBase.h"
 
+#include "MainCharacter.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -23,7 +24,7 @@ APlatformBase::APlatformBase(const FObjectInitializer& ObjectInitializer)
 void APlatformBase::BeginPlay()
 {
 	Super::BeginPlay();
-	PlayerCharacter = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	PlayerCharacter = Cast<AMainCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
     SetActorTickEnabled(false);
     FloorLocation = PlatformComponent->GetComponentLocation();
     FloorLocation.Z += PlatformComponent->GetLocalBounds().GetBox().GetExtent().Z / 2;

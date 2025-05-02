@@ -2,6 +2,8 @@
 
 
 #include "BreakablePlatform.h"
+
+#include "MainCharacter.h"
 #include "PaperSpriteComponent.h"
 #include "PaperFlipbookComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -37,7 +39,7 @@ void ABreakablePlatform::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	// CHANGE HERE: Removed bIsFlipbookPlaying check
 	
-	const float XDistanceBetwennCharacterAndPlatform = FMath::Abs(-(FloorLocation.X - PlayerCharacter->GetSprite()->GetComponentLocation().X));
+	const float XDistanceBetwennCharacterAndPlatform = FMath::Abs(-(FloorLocation.X - PlayerCharacter->GetCapsuleComponent()->GetComponentLocation().X));
 	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Emerald, FString::FromInt(XDistanceBetwennCharacterAndPlatform));
 	bool CharacterWithinThePlatform = XDistanceBetwennCharacterAndPlatform < PlatformComponent->GetLocalBounds().GetBox().GetExtent().X + PlayerCharacter->GetCapsuleComponent()->GetUnscaledCapsuleRadius();
 	if (ZDistanceBetweenCharacterAndPlatform > 0 && CharacterWithinThePlatform)
