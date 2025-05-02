@@ -4,11 +4,11 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Components/BoxComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
 
 AMainCharacter::AMainCharacter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	MovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("MovementComponent"));
 }
 
 void AMainCharacter::BeginPlay()
@@ -43,14 +43,7 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 void AMainCharacter::Move(const FInputActionValue& Value)
 {
-	float InputValue = Value.Get<float>();
-	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), InputValue);
-}
-
-void AMainCharacter::Jump(const FInputActionValue& Value)
-{
-	// float InputValue = Value.Get<float>();
-	// AddMovementInput(FVector(1.0f, 0.0f, 0.0f), InputValue);
+	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value.Get<float>());
 }
 
 void AMainCharacter::DropDown(const FInputActionValue& Value)
@@ -58,3 +51,4 @@ void AMainCharacter::DropDown(const FInputActionValue& Value)
 	// float InputValue = Value.Get<float>();
 	// AddMovementInput(FVector(1.0f, 0.0f, 0.0f), InputValue);
 }
+

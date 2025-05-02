@@ -2,14 +2,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
-class UBoxComponent;
 class UPaperSpriteComponent;
 class UHealthComponent;
 
 UCLASS(Abstract, NotBlueprintable)
-class FIRSTPROJECT_API ACharacterBase : public APawn
+class FIRSTPROJECT_API ACharacterBase : public ACharacter
 {
 	GENERATED_BODY()
 	
@@ -24,8 +24,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UHealthComponent* HealthComponent;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UBoxComponent* BoxComponent;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UPaperSpriteComponent* SpriteComponent;
 };

@@ -26,7 +26,6 @@ protected:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 	void Move(const FInputActionValue& Value);
-	void Jump(const FInputActionValue& Value);
 	void DropDown(const FInputActionValue& Value);
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
@@ -37,7 +36,4 @@ protected:
 	UInputAction* JumpAction;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* DropDownAction;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UFloatingPawnMovement* MovementComponent;
 };

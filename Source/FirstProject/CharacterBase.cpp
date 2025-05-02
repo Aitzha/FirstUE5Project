@@ -3,25 +3,15 @@
 #include "CharacterBase.h"
 #include "HealthComponent.h"
 #include "PaperSpriteComponent.h"
-#include "Components/BoxComponent.h"
+#include "Components/CapsuleComponent.h"
 
 ACharacterBase::ACharacterBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
-	RootComponent = BoxComponent;
-
-	// Enable physics 
-	BoxComponent->SetSimulatePhysics(true);
-	BoxComponent->SetEnableGravity(true);
-	BoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	BoxComponent->SetCollisionResponseToAllChannels(ECR_Block);
-	BoxComponent->SetCollisionObjectType(ECC_PhysicsBody);
-
 	// Restrict rotation and Y motion
-	BoxComponent->BodyInstance.bLockXRotation = true;
-	BoxComponent->BodyInstance.bLockYRotation = true;
-	BoxComponent->BodyInstance.bLockZRotation = true;
-	BoxComponent->BodyInstance.bLockYTranslation = true;
+	GetCapsuleComponent()->BodyInstance.bLockXRotation = true;
+	GetCapsuleComponent()->BodyInstance.bLockYRotation = true;
+	GetCapsuleComponent()->BodyInstance.bLockZRotation = true;
+	GetCapsuleComponent()->BodyInstance.bLockYTranslation = true;
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
 	
