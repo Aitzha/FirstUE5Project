@@ -75,7 +75,6 @@ void APlatformBase::InitializePlatformComponent(UPrimitiveComponent* InPlatformC
     PlatformComponent = InPlatformComponent;
     PlatformComponent->SetupAttachment(RootComponent);
 	PlatformComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
-	PlatformComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
     PlatformComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel3, ECR_Block);
     PlatformComponent->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 }

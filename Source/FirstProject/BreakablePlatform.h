@@ -24,6 +24,11 @@ private:
 	void BreakPlatform();
 	void ResetPlatform();
 
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	UFUNCTION()
+	void OnPlatformBoundaryComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters", meta = (AllowPrivateAccess = "true"))
 	TArray<UPaperSprite*> BreakStagesSprites;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters", meta = (AllowPrivateAccess = "true"))
@@ -38,13 +43,13 @@ private:
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	UPaperSpriteComponent* SpriteComponent = nullptr;
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UBoxComponent* PlatformBoundaryComponent = nullptr;
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	UPaperFlipbookComponent* FlipbookComponent = nullptr;
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	int32 CurrentBreakStage = 0;
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	float BreakTimer = 0.0f;
-	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	bool bIsBreaking = false;
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	bool bPlayerTouchedPlatform = false;
 };

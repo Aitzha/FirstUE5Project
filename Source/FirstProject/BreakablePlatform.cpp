@@ -5,16 +5,23 @@
 #include "PaperFlipbookComponent.h"
 #include "Components/BoxComponent.h"
 #include "PaperFlipbook.h"
-#include "Components/CapsuleComponent.h"
 
-ABreakablePlatform::ABreakablePlatform(const FObjectInitializer& ObjectInitializer)
-: Super(ObjectInitializer), SpriteComponent{ CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("SpriteComponent")) }
+ABreakablePlatform::ABreakablePlatform(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
+	SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("SpriteComponent"));
 	InitializePlatformComponent(SpriteComponent);
+	PlatformComponent->OnComponentHit.AddDynamic(this, &ABreakablePlatform::OnHit);
+	
 	FlipbookComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("FlipbookComponent"));
 	FlipbookComponent->SetupAttachment(RootComponent);
 	FlipbookComponent->SetVisibility(false);
 	FlipbookComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	PlatformBoundaryComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("PlatformBoundaryComponent"));
+	PlatformBoundaryComponent->SetupAttachment(RootComponent);
+	PlatformBoundaryComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
+	PlatformBoundaryComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
+	PlatformBoundaryComponent->OnComponentEndOverlap.AddDynamic(this, &ABreakablePlatform::OnPlatformBoundaryComponentEndOverlap);
 }
 
 void ABreakablePlatform::BeginPlay()
@@ -26,35 +33,23 @@ void ABreakablePlatform::BeginPlay()
 		FlipbookComponent->SetLooping(false);
 		FlipbookComponent->Stop();
 	}
+
+	PlatformBoundaryComponent->SetBoxExtent(PlatformComponent->GetLocalBounds().GetBox().GetExtent() + FVector(5.0f, 0.0f, 5.0f));
 }
 
 void ABreakablePlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	// const float XDistanceBetweenCharacterAndPlatform = FMath::Abs(-(FloorLocation.X - PlayerCharacter->GetCapsuleComponent()->GetComponentLocation().X));
-	// bool CharacterWithinThePlatform = XDistanceBetweenCharacterAndPlatform < PlatformComponent->GetLocalBounds().GetBox().GetExtent().X + PlayerCharacter->GetCapsuleComponent()->GetUnscaledCapsuleRadius();
-	// if (ZDistanceFromCharacter > 0 && CharacterWithinThePlatform)
-	// {
-	// 	bPlayerTouchedPlatform = true;
-	// 	bIsBreaking = true;
-	// 	BreakTimer += DeltaTime;
-	// 	if (BreakTimer >= BreakStageDuration)
-	// 	{
-	// 		UpdateBreakStage();
-	// 		BreakTimer = 0.0f;
-	// 	}
-	// }
-	// else
-	// {
-	// 	if (bPlayerTouchedPlatform)
-	// 	{
-	// 		BreakPlatform();
-	// 	}
-	// 	
-	// 	bIsBreaking = false;
-	// 	BreakTimer = 0.0f;
-	// }
+	if (bPlayerTouchedPlatform)
+	{
+		BreakTimer += DeltaTime;
+		if (BreakTimer >= BreakStageDuration)
+		{
+			UpdateBreakStage();
+			BreakTimer = 0.0f;
+		}
+	}
 }
 
 void ABreakablePlatform::UpdateBreakStage()
@@ -98,6 +93,23 @@ void ABreakablePlatform::ResetPlatform()
 {
 	// Reset platform somehow
 }
+
+void ABreakablePlatform::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (Cast<AMainCharacter>(OtherActor))
+	{
+		bPlayerTouchedPlatform = true;
+	}
+}
+
+void ABreakablePlatform::OnPlatformBoundaryComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex)
+{
+	if (bPlayerTouchedPlatform && Cast<AMainCharacter>(OtherActor))
+	{
+		BreakPlatform();
+	}
+}
+
 
 
 
