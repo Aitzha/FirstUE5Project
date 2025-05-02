@@ -3,9 +3,11 @@
 #include "MainCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Components/CapsuleComponent.h"
 
 AMainCharacter::AMainCharacter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
+	GetCapsuleComponent()->SetCollisionObjectType(ECC_GameTraceChannel1);
 }
 
 void AMainCharacter::BeginPlay()

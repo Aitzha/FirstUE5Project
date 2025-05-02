@@ -20,10 +20,6 @@ ABreakablePlatform::ABreakablePlatform(const FObjectInitializer& ObjectInitializ
 void ABreakablePlatform::BeginPlay()
 {
 	Super::BeginPlay();
-	if (BreakStagesSprites.Num() > 0 && SpriteComponent)
-	{
-		SpriteComponent->SetSprite(BreakStagesSprites[0]);
-	}
 	if (FlipbookComponent && BreakFlipbook)
 	{
 		FlipbookComponent->SetFlipbook(BreakFlipbook);
@@ -36,9 +32,8 @@ void ABreakablePlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	const float XDistanceBetwennCharacterAndPlatform = FMath::Abs(-(FloorLocation.X - PlayerCharacter->GetCapsuleComponent()->GetComponentLocation().X));
-	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Emerald, FString::FromInt(XDistanceBetwennCharacterAndPlatform));
-	bool CharacterWithinThePlatform = XDistanceBetwennCharacterAndPlatform < PlatformComponent->GetLocalBounds().GetBox().GetExtent().X + PlayerCharacter->GetCapsuleComponent()->GetUnscaledCapsuleRadius();
+	const float XDistanceBetweenCharacterAndPlatform = FMath::Abs(-(FloorLocation.X - PlayerCharacter->GetCapsuleComponent()->GetComponentLocation().X));
+	bool CharacterWithinThePlatform = XDistanceBetweenCharacterAndPlatform < PlatformComponent->GetLocalBounds().GetBox().GetExtent().X + PlayerCharacter->GetCapsuleComponent()->GetUnscaledCapsuleRadius();
 	if (ZDistanceBetweenCharacterAndPlatform > 0 && CharacterWithinThePlatform)
 	{
 		bPlayerTouchedPlatform = true;
@@ -64,10 +59,11 @@ void ABreakablePlatform::Tick(float DeltaTime)
 
 void ABreakablePlatform::UpdateBreakStage()
 {
-	CurrentBreakStage++;
+	
 	if (CurrentBreakStage < BreakStagesSprites.Num())
 	{
 		SpriteComponent->SetSprite(BreakStagesSprites[CurrentBreakStage]);
+		CurrentBreakStage++;
 	}
 	else
 	{
@@ -77,16 +73,6 @@ void ABreakablePlatform::UpdateBreakStage()
 
 void ABreakablePlatform::BreakPlatform()
 {
-	// CHANGE HERE: Added logic to remove platform collision
-	/* Reasoning 
-	 * 1) No logic of changing platform component collision to overlap was added. Meaning that character might be
-	 * standing on platform during break animation
-	 * 2) Destroying platform would be enough since platform component will be deleted as well but platform destruction
-	 * would happen only after animation, and it might look weird for players to see character standing on platform that
-	 * in the process of destruction for a split second.
-	 * 3) Simply changing platform component collision to overlap might not be enough since it could be changed back to
-	 * block in Tick function of the parent class
-	 */
 	BoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	PlatformComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
 	SetActorTickEnabled(false);
@@ -95,16 +81,17 @@ void ABreakablePlatform::BreakPlatform()
 	FlipbookComponent->SetVisibility(true);
 	FlipbookComponent->PlayFromStart();
 	float FlipbookDuration = BreakFlipbook->GetTotalDuration();
-
-	// CHANGE HERE: Change logic of platform destruction
-	// if (bIsSingleUse)
-	// {
-	// 	CTimerManager::DelayFunction(this, "Destroy", FlipbookDuration, [this]() {Destroy(); }, false);
-	// }
-	// else
-	// {
-	// 	CTimerManager::DelayFunction(this, "ResetPlatform", FlipbookDuration + PlatformResetTime, [this]() {ResetPlatform(); }, false);
-	// }
+	
+	if (bIsSingleUse)
+	{
+		FTimerHandle UnusedHandle;
+		GetWorldTimerManager().SetTimer(UnusedHandle, [this]() { Destroy(); }, FlipbookDuration, false);
+	}
+	else
+	{
+		FTimerHandle UnusedHandle;
+		GetWorldTimerManager().SetTimer(UnusedHandle, this, &ABreakablePlatform::ResetPlatform, FlipbookDuration, false);
+	}
 }
 
 void ABreakablePlatform::ResetPlatform()

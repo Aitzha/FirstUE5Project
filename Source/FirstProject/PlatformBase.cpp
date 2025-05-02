@@ -35,7 +35,7 @@ void APlatformBase::Tick(float DeltaTime)
     if (!PlatformComponent) return;
     FloorLocation = PlatformComponent->GetComponentLocation();
     FloorLocation.Z += PlatformComponent->GetLocalBounds().GetBox().GetExtent().Z / 2;
-    const float DistanceBetweenCharacterAndPlatform = -(FloorLocation.Z - PlayerCharacter->GetCapsuleComponent()->GetComponentLocation().Z);
+	ZDistanceBetweenCharacterAndPlatform = -(FloorLocation.Z - PlayerCharacter->GetCapsuleComponent()->GetComponentLocation().Z);
     static float Timer = 0;
     if (bIsCharacterMovingDown)
     {
@@ -49,7 +49,7 @@ void APlatformBase::Tick(float DeltaTime)
     }
     else
     {
-        if (DistanceBetweenCharacterAndPlatform < 0)
+        if (ZDistanceBetweenCharacterAndPlatform < 0)
         {
             PlatformComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
         }
@@ -68,7 +68,6 @@ void APlatformBase::OnBoxComponentBeginOverlap(UPrimitiveComponent* OverlappedCo
 void APlatformBase::OnBoxComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex)
 {
  	SetActorTickEnabled(false);
-	PlatformComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
 }
 
 void APlatformBase::InitializePlatformComponent(UPrimitiveComponent* InPlatformComponent)
@@ -78,7 +77,6 @@ void APlatformBase::InitializePlatformComponent(UPrimitiveComponent* InPlatformC
     PlatformComponent->SetupAttachment(RootComponent);
 	PlatformComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
 	PlatformComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
-    PlatformComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Block);
     PlatformComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel3, ECR_Block);
     PlatformComponent->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 }
