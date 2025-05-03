@@ -62,11 +62,13 @@ void APlatformBase::Tick(float DeltaTime)
 void APlatformBase::OnBoxComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	SetActorTickEnabled(true);
+	PlayerCharacter->OnDropDown.AddDynamic(this, &APlatformBase::SetIsMovingDown);
 }
 
 void APlatformBase::OnBoxComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex)
 {
  	SetActorTickEnabled(false);
+	PlayerCharacter->OnDropDown.RemoveDynamic(this, &APlatformBase::SetIsMovingDown);
 }
 
 void APlatformBase::InitializePlatformComponent(UPrimitiveComponent* InPlatformComponent)

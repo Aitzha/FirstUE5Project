@@ -51,16 +51,7 @@ void AMainCharacter::JumpOrDrop(const FInputActionValue& Value)
 {
 	if (bIsDownKeyPressed)
 	{
-		TArray<AActor*> OverlappingActors;
-		GetCapsuleComponent()->GetOverlappingActors(OverlappingActors);
-
-		for (AActor* Actor : OverlappingActors)
-		{
-			if (APlatformBase* Platform = Cast<APlatformBase>(Actor))
-			{
-				Platform->SetIsMovingDown(true);
-			}
-		}
+		OnDropDown.Broadcast(true);
 	}
 	else
 	{

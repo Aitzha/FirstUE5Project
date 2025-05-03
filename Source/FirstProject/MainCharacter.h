@@ -11,6 +11,8 @@ struct FInputActionValue;
 class UInputAction;
 class UInputMappingContext;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDropDown, bool, bIsMovingDown);
+
 UCLASS(Blueprintable)
 class FIRSTPROJECT_API AMainCharacter : public ACharacterBase
 {
@@ -19,6 +21,8 @@ class FIRSTPROJECT_API AMainCharacter : public ACharacterBase
 public:
 	AMainCharacter() = delete;
 	AMainCharacter(const FObjectInitializer& ObjectInitializer);
+
+	FOnDropDown OnDropDown;
 
 protected:
 	virtual void BeginPlay() override;
