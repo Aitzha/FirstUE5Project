@@ -13,9 +13,13 @@ UCLASS(Blueprintable)
 class FIRSTPROJECT_API ABreakablePlatform : public APlatformBase
 {
 	GENERATED_BODY()
+	
+public:
+	ABreakablePlatform(const FObjectInitializer& ObjectInitializer);
+	
+	virtual void SetIsMovingDown(bool bIsMovingDown) override;
 
 protected:
-	ABreakablePlatform(const FObjectInitializer& ObjectInitializer);
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
@@ -52,4 +56,6 @@ private:
 	float BreakTimer = 0.0f;
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	bool bPlayerTouchedPlatform = false;
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	bool bIsPlatformBreaking = false;
 };

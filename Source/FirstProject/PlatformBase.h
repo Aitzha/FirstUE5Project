@@ -19,7 +19,7 @@ public:
     APlatformBase(const FObjectInitializer& ObjectInitializer);
 
     UFUNCTION(BlueprintCallable)
-    inline void setIsMovingDown(bool bIsMovingDown) { bIsCharacterMovingDown = bIsMovingDown; }
+    virtual void SetIsMovingDown(bool bIsMovingDown) { bIsCharacterMovingDown = bIsMovingDown; }
 
 protected:
     virtual void Tick(float deltaTime) override;

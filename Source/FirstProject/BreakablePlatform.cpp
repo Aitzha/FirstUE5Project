@@ -24,6 +24,16 @@ ABreakablePlatform::ABreakablePlatform(const FObjectInitializer& ObjectInitializ
 	PlatformBoundaryComponent->OnComponentEndOverlap.AddDynamic(this, &ABreakablePlatform::OnPlatformBoundaryComponentEndOverlap);
 }
 
+void ABreakablePlatform::SetIsMovingDown(bool bIsMovingDown)
+{
+	Super::SetIsMovingDown(bIsMovingDown);
+
+	if (bPlayerTouchedPlatform)
+	{
+		BreakPlatform();
+	}
+}
+
 void ABreakablePlatform::BeginPlay()
 {
 	Super::BeginPlay();
@@ -68,6 +78,12 @@ void ABreakablePlatform::UpdateBreakStage()
 
 void ABreakablePlatform::BreakPlatform()
 {
+	if (bIsPlatformBreaking)
+	{
+		return;
+	}
+
+	bIsPlatformBreaking = true;
 	BoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	PlatformComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
 	SetActorTickEnabled(false);

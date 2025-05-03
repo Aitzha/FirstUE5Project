@@ -58,7 +58,7 @@ void AMainCharacter::JumpOrDrop(const FInputActionValue& Value)
 		{
 			if (APlatformBase* Platform = Cast<APlatformBase>(Actor))
 			{
-				Platform->setIsMovingDown(true);
+				Platform->SetIsMovingDown(true);
 			}
 		}
 	}
