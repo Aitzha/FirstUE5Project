@@ -33,8 +33,8 @@ void ABreakablePlatform::BeginPlay()
 		FlipbookComponent->SetLooping(false);
 		FlipbookComponent->Stop();
 	}
-
-	PlatformBoundaryComponent->SetBoxExtent(PlatformComponent->GetLocalBounds().GetBox().GetExtent() + FVector(5.0f, 0.0f, 5.0f));
+	
+	PlatformBoundaryComponent->SetBoxExtent(PlatformComponent->GetLocalBounds().GetBox().GetExtent() + FVector(3.0f, 0.0f, 3.0f));
 }
 
 void ABreakablePlatform::Tick(float DeltaTime)
