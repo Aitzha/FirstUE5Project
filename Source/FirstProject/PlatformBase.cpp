@@ -48,7 +48,7 @@ void APlatformBase::Tick(float DeltaTime)
     }
     else
     {
-        if (ZDistanceFromCharacter < 0)
+        if (ZDistanceFromCharacter < 5)
         {
             PlatformComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
         }
