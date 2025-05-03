@@ -46,4 +46,6 @@ protected:
 private:
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	bool bIsDownKeyPressed = false;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	bool bIsLookingRight = true;
 };

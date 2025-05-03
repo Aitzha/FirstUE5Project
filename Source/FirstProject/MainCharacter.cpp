@@ -3,6 +3,7 @@
 #include "MainCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "PaperSpriteComponent.h"
 #include "Components/CapsuleComponent.h"
 
 AMainCharacter::AMainCharacter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -43,7 +44,20 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 void AMainCharacter::Move(const FInputActionValue& Value)
 {
-	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value.Get<float>());
+	const float MoveValue = Value.Get<float>();
+	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), MoveValue);
+
+	if (MoveValue == -1.0f && bIsLookingRight)
+	{
+		SpriteComponent->SetRelativeRotation(FRotator(0, 180, 0));
+		bIsLookingRight = false;
+	}
+	
+	if (MoveValue == 1.0f && !bIsLookingRight)
+	{
+		SpriteComponent->SetRelativeRotation(FRotator(0, 0, 0));
+		bIsLookingRight = true;
+	}
 }
 
 void AMainCharacter::JumpOrDrop(const FInputActionValue& Value)
