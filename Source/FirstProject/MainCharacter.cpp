@@ -3,6 +3,7 @@
 #include "MainCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "PlatformBase.h"
 #include "Components/CapsuleComponent.h"
 
 AMainCharacter::AMainCharacter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -35,8 +36,9 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	if (UEnhancedInputComponent* EnhancedInput = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		EnhancedInput->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMainCharacter::Move);
-		EnhancedInput->BindAction(JumpAction, ETriggerEvent::Started, this, &AMainCharacter::Jump);
-		EnhancedInput->BindAction(DropDownAction, ETriggerEvent::Started, this, &AMainCharacter::DropDown);
+		EnhancedInput->BindAction(JumpAction, ETriggerEvent::Started, this, &AMainCharacter::JumpOrDrop);
+		EnhancedInput->BindAction(DropDownAction, ETriggerEvent::Started, this, &AMainCharacter::DownKeyPressed);
+		EnhancedInput->BindAction(DropDownAction, ETriggerEvent::Completed, this, &AMainCharacter::DownKeyReleased);
 	}
 }
 
@@ -45,9 +47,23 @@ void AMainCharacter::Move(const FInputActionValue& Value)
 	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value.Get<float>());
 }
 
-void AMainCharacter::DropDown(const FInputActionValue& Value)
+void AMainCharacter::JumpOrDrop(const FInputActionValue& Value)
 {
-	// float InputValue = Value.Get<float>();
-	// AddMovementInput(FVector(1.0f, 0.0f, 0.0f), InputValue);
-}
+	if (bIsDownKeyPressed)
+	{
+		TArray<AActor*> OverlappingActors;
+		GetCapsuleComponent()->GetOverlappingActors(OverlappingActors);
 
+		for (AActor* Actor : OverlappingActors)
+		{
+			if (APlatformBase* Platform = Cast<APlatformBase>(Actor))
+			{
+				Platform->setIsMovingDown(true);
+			}
+		}
+	}
+	else
+	{
+		Jump();
+	}
+}

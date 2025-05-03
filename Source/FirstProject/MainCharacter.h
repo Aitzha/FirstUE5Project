@@ -26,7 +26,9 @@ protected:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 	void Move(const FInputActionValue& Value);
-	void DropDown(const FInputActionValue& Value);
+	void JumpOrDrop(const FInputActionValue& Value);
+	void DownKeyPressed(const FInputActionValue& Value) { bIsDownKeyPressed = true; }
+	void DownKeyReleased(const FInputActionValue& Value) { bIsDownKeyPressed = false; }
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputMappingContext* InputMappingContext;
@@ -36,4 +38,8 @@ protected:
 	UInputAction* JumpAction;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* DropDownAction;
+
+private:
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	bool bIsDownKeyPressed = false;
 };
