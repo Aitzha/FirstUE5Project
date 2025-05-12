@@ -42,6 +42,7 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		EnhancedInput->BindAction(JumpAction, ETriggerEvent::Started, this, &AMainCharacter::JumpOrDrop);
 		EnhancedInput->BindAction(DropDownAction, ETriggerEvent::Started, this, &AMainCharacter::DownKeyPressed);
 		EnhancedInput->BindAction(DropDownAction, ETriggerEvent::Completed, this, &AMainCharacter::DownKeyReleased);
+		EnhancedInput->BindAction(InteractAction, ETriggerEvent::Started, this, &AMainCharacter::Interact);
 	}
 }
 

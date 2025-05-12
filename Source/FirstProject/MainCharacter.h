@@ -12,6 +12,7 @@ class UInputAction;
 class UInputMappingContext;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDropDown, bool, bIsMovingDown);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerInteract);
 
 UCLASS(Blueprintable)
 class FIRSTPROJECT_API AMainCharacter : public ACharacterBase
@@ -23,6 +24,7 @@ public:
 	AMainCharacter(const FObjectInitializer& ObjectInitializer);
 
 	FOnDropDown OnDropDown;
+	FOnPlayerInteract OnPlayerInteract;
 
 protected:
 	virtual void BeginPlay() override;
@@ -33,6 +35,7 @@ protected:
 	void JumpOrDrop(const FInputActionValue& Value);
 	void DownKeyPressed(const FInputActionValue& Value) { bIsDownKeyPressed = true; }
 	void DownKeyReleased(const FInputActionValue& Value) { bIsDownKeyPressed = false; }
+	void Interact(const FInputActionValue& Value) { OnPlayerInteract.Broadcast(); }
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
@@ -45,6 +48,8 @@ protected:
 	UInputAction* JumpAction;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* DropDownAction;
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* InteractAction;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Parameters")
 	float DamageFromCollision = 5;

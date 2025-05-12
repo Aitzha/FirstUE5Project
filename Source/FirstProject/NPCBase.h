@@ -5,10 +5,11 @@
 #include "GameFramework/Actor.h"
 #include "NPCBase.generated.h"
 
+class AMainCharacter;
 class UPaperSpriteComponent;
 class UBoxComponent;
 
-UCLASS()
+UCLASS(Abstract, NotBlueprintable)
 class FIRSTPROJECT_API ANPCBase : public AActor
 {
 	GENERATED_BODY()
@@ -21,10 +22,16 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION()
+	virtual void OnPlayerInteraction();
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UBoxComponent* BoxComponent;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UPaperSpriteComponent* SpriteComponent;
+
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	AMainCharacter* PlayerCharacter = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Other")
 	bool bIsPlayerInRange = false;
