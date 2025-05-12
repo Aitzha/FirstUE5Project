@@ -4,6 +4,7 @@
 #include "HealthComponent.h"
 #include "PaperSpriteComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 ACharacterBase::ACharacterBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -11,7 +12,8 @@ ACharacterBase::ACharacterBase(const FObjectInitializer& ObjectInitializer) : Su
 	GetCapsuleComponent()->BodyInstance.bLockXRotation = true;
 	GetCapsuleComponent()->BodyInstance.bLockYRotation = true;
 	GetCapsuleComponent()->BodyInstance.bLockZRotation = true;
-	GetCapsuleComponent()->BodyInstance.bLockYTranslation = true;
+	GetCharacterMovement()->SetPlaneConstraintAxisSetting(EPlaneConstraintAxisSetting::Y);
+	GetCharacterMovement()->bConstrainToPlane = true;
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
 	
