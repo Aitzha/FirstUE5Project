@@ -16,7 +16,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void OnPlayerInteraction() override;
 	
-	// UPROPERTY(EditDefaultsOnly, Category = "UI")
-	// TSubclassOf<UUserWidget> InteractionWidgetClass;
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<UUserWidget> InteractionWidgetClass;
 };
