@@ -2,7 +2,7 @@
 
 #include "HealthComponent.h"
 
-UHealthComponent::UHealthComponent()
+UHealthComponent::UHealthComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryComponentTick.bCanEverTick = false;
 
@@ -28,21 +28,19 @@ void UHealthComponent::TakeDamage(int damage)
 	
 	CurrentHealth -= damage;
 	LastTimeDamageTaken = CurrentTime;
+	
+	OnHealthUpdate.Broadcast();
 }
 
 void UHealthComponent::Heal(int amount)
 {
 	CurrentHealth = FMath::Max(CurrentHealth + amount, MaxHealth);
+	OnHealthUpdate.Broadcast();
 }
 
 
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 

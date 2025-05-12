@@ -33,6 +33,9 @@ protected:
 	void JumpOrDrop(const FInputActionValue& Value);
 	void DownKeyPressed(const FInputActionValue& Value) { bIsDownKeyPressed = true; }
 	void DownKeyReleased(const FInputActionValue& Value) { bIsDownKeyPressed = false; }
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputMappingContext* InputMappingContext;
@@ -42,6 +45,9 @@ protected:
 	UInputAction* JumpAction;
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* DropDownAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Parameters")
+	float DamageFromCollision = 5;
 
 private:
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))

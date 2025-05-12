@@ -5,13 +5,19 @@
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHealthUpdate);
+
 UCLASS( ClassGroup=(Stats), meta=(BlueprintSpawnableComponent) )
 class FIRSTPROJECT_API UHealthComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
-	UHealthComponent();
+	UHealthComponent() = delete;
+	UHealthComponent(const FObjectInitializer& ObjectInitializer);
+
+	UPROPERTY(BlueprintAssignable, Category = "Health")
+	FOnHealthUpdate OnHealthUpdate;
 
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	float GetHealthPercentage();
@@ -22,21 +28,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Damage")
 	void TakeDamage(int damage);
 
-	UFUNCTION(BlueprintCallable, Category = "Regen")
+	UFUNCTION(BlueprintCallable, Category = "Regeneration")
 	void Heal(int amount);
 
 protected:
 	virtual void BeginPlay() override;
 
-private:	
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	
+private:
 	int CurrentHealth;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly, Category = "Parameters")
 	int MaxHealth = 20;
-
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly, Category = "Parameters")
 	float DamageTakeCooldown = 2.0f;
 
 	float LastTimeDamageTaken = -100.0f;

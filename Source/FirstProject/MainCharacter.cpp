@@ -3,12 +3,15 @@
 #include "MainCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "HealthComponent.h"
 #include "PaperSpriteComponent.h"
 #include "Components/CapsuleComponent.h"
 
 AMainCharacter::AMainCharacter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	GetCapsuleComponent()->SetCollisionObjectType(ECC_GameTraceChannel1);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_GameTraceChannel3, ECR_Block);
+	GetCapsuleComponent()->OnComponentHit.AddDynamic(this, &AMainCharacter::OnHit);
 }
 
 void AMainCharacter::BeginPlay()
@@ -69,5 +72,13 @@ void AMainCharacter::JumpOrDrop(const FInputActionValue& Value)
 	else
 	{
 		Jump();
+	}
+}
+
+void AMainCharacter::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (OtherComp->GetCollisionObjectType() == ECC_GameTraceChannel3)
+	{
+		HealthComponent->TakeDamage(DamageFromCollision);
 	}
 }
