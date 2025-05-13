@@ -25,20 +25,14 @@ void ASpecialMerchantNPC::OnPlayerInteraction()
 
 	if (InteractionWidgetClass)
 	{
-		APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
-		if (PC)
+		if (APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0))
 		{
-			UUserWidget* Widget = CreateWidget(PC, InteractionWidgetClass);
-			if (Widget)
+			if (UUserWidget* Widget = CreateWidget(PC, InteractionWidgetClass))
 			{
 				Widget->AddToViewport();
-	
-				// Optional: Show mouse + pause game
-				// PC->SetShowMouseCursor(true);
-				// PC->SetInputMode(FInputModeUIOnly());
-	
-				// Optional: Pause
-				// UGameplayStatics::SetGamePaused(this, true);
+				
+				PC->SetShowMouseCursor(true);
+				PC->SetInputMode(FInputModeUIOnly());
 			}
 		}
 	}
