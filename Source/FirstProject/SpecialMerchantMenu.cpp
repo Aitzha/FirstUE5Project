@@ -4,8 +4,11 @@
 #include "SpecialMerchantMenu.h"
 #include "Components/CanvasPanelSlot.h"
 #include "Components/Image.h"
-#include "PaperSprite.h"
+#include "Components/Border.h"
+#include "Components/Button.h"
 #include "Components/CanvasPanel.h"
+#include "Components/TextBlock.h"
+#include "Components/VerticalBox.h"
 #include "Engine/Texture2D.h"
 
 USpecialMerchantMenu::USpecialMerchantMenu(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -18,30 +21,47 @@ void USpecialMerchantMenu::NativeConstruct()
 
 	if (!Canvas) return;
 
-	const float IconSize = 512.f;
-	const float Spacing = 512.f;
-	const float StartX = 100.f;
-	const float Y = 200.f;
-
 	for (int32 i = 0; i < CharacterOptions.Num(); ++i)
 	{
-		UPaperSprite* Sprite = CharacterOptions[i];
-		if (!Sprite) continue;
+		UTexture2D* Texture = CharacterOptions[i];
+		if (!Texture) continue;
 
-		// Create UImage
-		UImage* SpriteImage = NewObject<UImage>(this);
-		
-		// Convert UPaperSprite to Brush
+		UVerticalBox* EntryBox = NewObject<UVerticalBox>(this);
+
+		// Border with image
+		UBorder* Border = NewObject<UBorder>(this);
+		UImage* Image = NewObject<UImage>(this);
+
+		// Set sprite brush
 		FSlateBrush Brush;
-		Brush.SetResourceObject(Sprite->GetBakedTexture());
+		Brush.SetResourceObject(Texture);
 		Brush.ImageSize = FVector2D(IconSize, IconSize);
-		SpriteImage->SetBrush(Brush);
+		Image->SetBrush(Brush);
+
+		// Put image into border
+		Border->SetContent(Image);
+		Border->SetPadding(FMargin(20.f));
+
+		FSlateBrush BorderBrush;
+		BorderBrush.DrawAs = ESlateBrushDrawType::Box;
+		BorderBrush.SetResourceObject(BorderTexture);
+		Border->SetBrush(BorderBrush);
+
+		// Button below
+		UButton* SelectButton = NewObject<UButton>(this);
+		UTextBlock* ButtonText = NewObject<UTextBlock>(this);
+		ButtonText->SetText(FText::FromString("Select"));
+		SelectButton->AddChild(ButtonText);
+
+		// Add to vertical box
+		EntryBox->AddChild(Border);
+		EntryBox->AddChild(SelectButton);
 
 		// Add to Canvas
-		if (UCanvasPanelSlot* CanvasSlot = Canvas->AddChildToCanvas(SpriteImage))
+		if (UCanvasPanelSlot* CanvasSlot = Canvas->AddChildToCanvas(EntryBox))
 		{
 			CanvasSlot->SetAutoSize(true);
-			CanvasSlot->SetPosition(FVector2D(StartX + i * Spacing, Y));
+			CanvasSlot->SetPosition(FVector2D(StartX + i * Spacing, StartY));
 		}
 	}
 }
