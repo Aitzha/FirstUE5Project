@@ -5,6 +5,8 @@
 #include "Blueprint/UserWidget.h"
 #include "SpecialMerchantMenu.generated.h"
 
+struct FSpecialMerchantCharacter;
+
 UCLASS()
 class FIRSTPROJECT_API USpecialMerchantMenu : public UUserWidget
 {
@@ -21,9 +23,10 @@ protected:
 	class UCanvasPanel* Canvas;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sprites")
-	TArray<UTexture2D*> CharacterOptions;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sprites")
 	UTexture2D* BorderTexture;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Characters")
+	TArray<FSpecialMerchantCharacter> Characters;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Parameters")
 	float IconSize = 512.f;

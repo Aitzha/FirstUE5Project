@@ -10,6 +10,7 @@
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 #include "Engine/Texture2D.h"
+#include "SpecialMerchantCharacter.h"
 
 USpecialMerchantMenu::USpecialMerchantMenu(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -21,9 +22,9 @@ void USpecialMerchantMenu::NativeConstruct()
 
 	if (!Canvas) return;
 
-	for (int32 i = 0; i < CharacterOptions.Num(); ++i)
+	for (int32 i = 0; i < Characters.Num(); ++i)
 	{
-		UTexture2D* Texture = CharacterOptions[i];
+		UTexture2D* Texture = Characters[i].CharacterTexture;
 		if (!Texture) continue;
 
 		UVerticalBox* EntryBox = NewObject<UVerticalBox>(this);
