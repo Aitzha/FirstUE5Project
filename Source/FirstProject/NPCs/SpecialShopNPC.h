@@ -3,15 +3,15 @@
 
 #include "CoreMinimal.h"
 #include "NPCBase.h"
-#include "SpecialMerchantNPC.generated.h"
+#include "SpecialShopNPC.generated.h"
 
 UCLASS(Blueprintable)
-class FIRSTPROJECT_API ASpecialMerchantNPC : public ANPCBase
+class FIRSTPROJECT_API ASpecialShopNPC : public ANPCBase
 {
 	GENERATED_BODY()
 
 public:
-	ASpecialMerchantNPC(const FObjectInitializer& ObjectInitializer);
+	ASpecialShopNPC(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;

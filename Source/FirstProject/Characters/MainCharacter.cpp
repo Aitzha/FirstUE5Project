@@ -3,9 +3,9 @@
 #include "MainCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "HealthComponent.h"
 #include "PaperSpriteComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "FirstProject/Components/HealthComponent.h"
 
 AMainCharacter::AMainCharacter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {

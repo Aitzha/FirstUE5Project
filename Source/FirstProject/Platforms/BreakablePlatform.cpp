@@ -5,6 +5,7 @@
 #include "PaperFlipbookComponent.h"
 #include "Components/BoxComponent.h"
 #include "PaperFlipbook.h"
+#include "FirstProject/Characters/MainCharacter.h"
 
 ABreakablePlatform::ABreakablePlatform(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {

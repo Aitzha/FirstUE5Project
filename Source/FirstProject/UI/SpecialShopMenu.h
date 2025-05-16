@@ -3,18 +3,18 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "SpecialMerchantMenu.generated.h"
+#include "SpecialShopMenu.generated.h"
 
 struct FSpecialMerchantCharacter;
 
 UCLASS()
-class FIRSTPROJECT_API USpecialMerchantMenu : public UUserWidget
+class FIRSTPROJECT_API USpecialShopMenu : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
-	USpecialMerchantMenu() = delete;
-	USpecialMerchantMenu(const FObjectInitializer& ObjectInitializer);
+	USpecialShopMenu() = delete;
+	USpecialShopMenu(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void NativeConstruct() override;

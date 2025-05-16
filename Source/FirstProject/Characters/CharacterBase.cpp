@@ -1,9 +1,9 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CharacterBase.h"
-#include "HealthComponent.h"
 #include "PaperSpriteComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "FirstProject/Components/HealthComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 ACharacterBase::ACharacterBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)

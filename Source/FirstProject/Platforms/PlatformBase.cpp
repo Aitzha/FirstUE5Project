@@ -1,9 +1,9 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "PlatformBase.h"
-#include "MainCharacter.h"
 #include "Components/BoxComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "FirstProject/Characters/MainCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 

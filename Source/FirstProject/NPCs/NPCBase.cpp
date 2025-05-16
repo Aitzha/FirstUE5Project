@@ -1,10 +1,9 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "NPCBase.h"
-
-#include "MainCharacter.h"
 #include "PaperSpriteComponent.h"
 #include "Components/BoxComponent.h"
+#include "FirstProject/Characters/MainCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 

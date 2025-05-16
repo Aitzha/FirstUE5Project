@@ -1,7 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-
-#include "SpecialMerchantMenu.h"
+#include "SpecialShopMenu.h"
 #include "Components/CanvasPanelSlot.h"
 #include "Components/Image.h"
 #include "Components/Border.h"
@@ -10,13 +9,13 @@
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 #include "Engine/Texture2D.h"
-#include "SpecialMerchantCharacter.h"
+#include "FirstProject/SpecialMerchantCharacter.h"
 
-USpecialMerchantMenu::USpecialMerchantMenu(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+USpecialShopMenu::USpecialShopMenu(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 }
 
-void USpecialMerchantMenu::NativeConstruct()
+void USpecialShopMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
 

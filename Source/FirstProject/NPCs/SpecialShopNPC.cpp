@@ -1,25 +1,24 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "SpecialMerchantNPC.h"
-
+#include "SpecialShopNPC.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 
-ASpecialMerchantNPC::ASpecialMerchantNPC(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+ASpecialShopNPC::ASpecialShopNPC(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 }
 
-void ASpecialMerchantNPC::BeginPlay()
+void ASpecialShopNPC::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-void ASpecialMerchantNPC::Tick(float DeltaTime)
+void ASpecialShopNPC::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
 
-void ASpecialMerchantNPC::OnPlayerInteraction()
+void ASpecialShopNPC::OnPlayerInteraction()
 {
 	Super::OnPlayerInteraction();
 
