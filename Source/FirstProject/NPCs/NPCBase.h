@@ -25,15 +25,15 @@ protected:
 	UFUNCTION()
 	virtual void OnPlayerInteraction();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UBoxComponent* BoxComponent;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UPaperSpriteComponent* SpriteComponent;
 
 	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "Other")
 	AMainCharacter* PlayerCharacter = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Other")
+	UPROPERTY(BlueprintReadWrite, Category = "Other")
 	bool bIsPlayerInRange = false;
 
 private:

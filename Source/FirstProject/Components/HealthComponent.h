@@ -37,9 +37,9 @@ protected:
 private:
 	int32 CurrentHealth = 20;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Parameters")
+	UPROPERTY(EditAnywhere, Category = "Parameters")
 	int32 MaxHealth = 20;
-	UPROPERTY(EditDefaultsOnly, Category = "Parameters")
+	UPROPERTY(EditAnywhere, Category = "Parameters")
 	float DamageTakeCooldown = 2.0f;
 
 	float LastTimeDamageTaken = 0.0f;
