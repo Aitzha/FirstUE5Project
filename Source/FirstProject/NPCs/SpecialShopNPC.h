@@ -19,6 +19,6 @@ protected:
 
 	virtual void OnPlayerInteraction() override;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UUserWidget> InteractionWidgetClass;
 };

@@ -7,7 +7,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHealthUpdate);
 
-UCLASS( ClassGroup=(Stats), meta=(BlueprintSpawnableComponent) )
+UCLASS()
 class FIRSTPROJECT_API UHealthComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -23,24 +23,24 @@ public:
 	float GetHealthPercentage();
 
 	UFUNCTION(BlueprintCallable, Category = "Health")
-	int GetCurrentHealth();
+	int32 GetCurrentHealth();
 
 	UFUNCTION(BlueprintCallable, Category = "Damage")
-	void TakeDamage(int damage);
+	void TakeDamage(int32 damage);
 
 	UFUNCTION(BlueprintCallable, Category = "Regeneration")
-	void Heal(int amount);
+	void Heal(int32 amount);
 
 protected:
 	virtual void BeginPlay() override;
 
 private:
-	int CurrentHealth;
+	int32 CurrentHealth = 20;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Parameters")
-	int MaxHealth = 20;
+	int32 MaxHealth = 20;
 	UPROPERTY(EditDefaultsOnly, Category = "Parameters")
 	float DamageTakeCooldown = 2.0f;
 
-	float LastTimeDamageTaken = -100.0f;
+	float LastTimeDamageTaken = 0.0f;
 };

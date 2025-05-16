@@ -43,9 +43,7 @@ private:
 	bool bIsSingleUse = true;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters", meta = (AllowPrivateAccess = "true"))
 	float PlatformResetTime = 5.0f;
-
-	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	UPaperSpriteComponent* SpriteComponent = nullptr;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	UBoxComponent* PlatformBoundaryComponent = nullptr;
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))

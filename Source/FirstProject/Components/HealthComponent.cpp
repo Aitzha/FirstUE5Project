@@ -15,12 +15,12 @@ float UHealthComponent::GetHealthPercentage()
 	return static_cast<float>(CurrentHealth) / MaxHealth;
 }
 
-int UHealthComponent::GetCurrentHealth()
+int32 UHealthComponent::GetCurrentHealth()
 {
 	return CurrentHealth;
 }
 
-void UHealthComponent::TakeDamage(int damage)
+void UHealthComponent::TakeDamage(int32 damage)
 {
 	double CurrentTime = GetWorld()->GetTimeSeconds();
 	if (CurrentTime - LastTimeDamageTaken < DamageTakeCooldown)
@@ -32,7 +32,7 @@ void UHealthComponent::TakeDamage(int damage)
 	OnHealthUpdate.Broadcast();
 }
 
-void UHealthComponent::Heal(int amount)
+void UHealthComponent::Heal(int32 amount)
 {
 	CurrentHealth = FMath::Max(CurrentHealth + amount, MaxHealth);
 	OnHealthUpdate.Broadcast();

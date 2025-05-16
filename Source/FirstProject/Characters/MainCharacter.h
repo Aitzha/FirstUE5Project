@@ -51,12 +51,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* InteractAction;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
 	float DamageFromCollision = 5;
 
 private:
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	bool bIsDownKeyPressed = false;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	bool bIsLookingRight = true;
 };

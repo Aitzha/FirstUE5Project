@@ -9,7 +9,7 @@
 
 ABreakablePlatform::ABreakablePlatform(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("SpriteComponent"));
+	UPaperSpriteComponent* SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("SpriteComponent"));
 	InitializePlatformComponent(SpriteComponent);
 	PlatformComponent->OnComponentHit.AddDynamic(this, &ABreakablePlatform::OnHit);
 	
@@ -65,11 +65,13 @@ void ABreakablePlatform::Tick(float DeltaTime)
 
 void ABreakablePlatform::UpdateBreakStage()
 {
-	
 	if (CurrentBreakStage < BreakStagesSprites.Num())
 	{
-		SpriteComponent->SetSprite(BreakStagesSprites[CurrentBreakStage]);
-		CurrentBreakStage++;
+		if (UPaperSpriteComponent* SpriteComponent = Cast<UPaperSpriteComponent>(PlatformComponent))
+		{
+			SpriteComponent->SetSprite(BreakStagesSprites[CurrentBreakStage]);
+            CurrentBreakStage++;
+		}
 	}
 	else
 	{
@@ -88,8 +90,8 @@ void ABreakablePlatform::BreakPlatform()
 	BoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	PlatformComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
 	SetActorTickEnabled(false);
-	
-	SpriteComponent->SetVisibility(false);
+
+	PlatformComponent->SetVisibility(false);
 	FlipbookComponent->SetVisibility(true);
 	FlipbookComponent->PlayFromStart();
 	float FlipbookDuration = BreakFlipbook->GetTotalDuration();

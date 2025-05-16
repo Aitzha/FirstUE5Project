@@ -27,18 +27,18 @@ protected:
 
     void InitializePlatformComponent(UPrimitiveComponent* InPlatformComponent);
 
-    UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-    bool bIsCharacterMovingDown = false;
-    UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(EditInstanceOnly, BlueprintReadWrite)
     AMainCharacter* PlayerCharacter = nullptr;
-    UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(BlueprintReadOnly)
+    bool bIsCharacterMovingDown = false;
+    UPROPERTY(BlueprintReadOnly)
     float ZDistanceFromCharacter;
-    UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(BlueprintReadOnly)
     float FloorZPos;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
     UPrimitiveComponent* PlatformComponent;
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
     UBoxComponent* BoxComponent;
 
 
