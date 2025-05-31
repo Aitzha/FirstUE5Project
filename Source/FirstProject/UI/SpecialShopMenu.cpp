@@ -3,15 +3,8 @@
 #include "SpecialShopMenu.h"
 
 #include "SpecialShopCharacterEntry.h"
-#include "Components/CanvasPanelSlot.h"
 #include "Components/Image.h"
-#include "Components/Border.h"
-#include "Components/Button.h"
-#include "Components/CanvasPanel.h"
 #include "Components/ScrollBox.h"
-#include "Components/ScrollBoxSlot.h"
-#include "Components/TextBlock.h"
-#include "Components/VerticalBox.h"
 #include "Components/WidgetSwitcher.h"
 #include "Engine/Texture2D.h"
 #include "FirstProject/SpecialShopCharacterData.h"
@@ -53,11 +46,7 @@ void USpecialShopMenu::ShowShopList()
 		USpecialShopCharacterEntry* Entry = CreateWidget<USpecialShopCharacterEntry>(this, CharacterEntryWidgetClass);
 		bool bIsPurchased = PurchasedCharacters.Contains(CharData.CharacterID);
 		Entry->Setup(CharData, bIsPurchased, this);
-		
-		if (UScrollBoxSlot* ScrollBoxElement = Cast<UScrollBoxSlot>(ShopListPanel->AddChild(Entry)))
-		{
-			ScrollBoxElement->SetPadding(FMargin(10.f, 0.f));
-		}
+		ShopListPanel->AddChild(Entry);
 	}
 
 	WidgetSwitcher->SetActiveWidgetIndex(0);
