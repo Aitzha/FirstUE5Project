@@ -1,67 +1,64 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "SpecialShopMenu.h"
+
+#include "SpecialShopCharacterEntry.h"
 #include "Components/CanvasPanelSlot.h"
 #include "Components/Image.h"
 #include "Components/Border.h"
 #include "Components/Button.h"
 #include "Components/CanvasPanel.h"
+#include "Components/ScrollBox.h"
+#include "Components/ScrollBoxSlot.h"
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
+#include "Components/WidgetSwitcher.h"
 #include "Engine/Texture2D.h"
-#include "FirstProject/SpecialMerchantCharacter.h"
+#include "FirstProject/SpecialShopCharacterData.h"
+
+class USpecialShopCharacterEntry;
 
 USpecialShopMenu::USpecialShopMenu(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 }
 
+void USpecialShopMenu::OnCharacterButtonClicked(FSpecialShopCharacterData* CharacterData)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Button was pressed for: %s"), *CharacterData->CharacterID.ToString());
+	if (!PurchasedCharacters.Contains(CharacterData->CharacterID))
+	{
+		// Mock purchase
+		PurchasedCharacters.Add(CharacterData->CharacterID);
+		// RefreshShopList();
+	}
+	else
+	{
+		// ShowCharacterDetails(CharacterData);
+	}
+}
+
 void USpecialShopMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
+	ShowShopList();
+}
 
-	if (!Canvas) return;
+void USpecialShopMenu::ShowShopList()
+{
+	UScrollBox* ShopListPanel = Cast<UScrollBox>(WidgetSwitcher->GetWidgetAtIndex(0));
+	ShopListPanel->ClearChildren();
 
-	for (int32 i = 0; i < Characters.Num(); ++i)
+	for (FSpecialShopCharacterData& CharData : Characters)
 	{
-		UTexture2D* Texture = Characters[i].CharacterTexture;
-		if (!Texture) continue;
-
-		UVerticalBox* EntryBox = NewObject<UVerticalBox>(this);
-
-		// Border with image
-		UBorder* Border = NewObject<UBorder>(this);
-		UImage* Image = NewObject<UImage>(this);
-
-		// Set sprite brush
-		FSlateBrush Brush;
-		Brush.SetResourceObject(Texture);
-		Brush.ImageSize = FVector2D(IconSize, IconSize);
-		Image->SetBrush(Brush);
-
-		// Put image into border
-		Border->SetContent(Image);
-		Border->SetPadding(FMargin(20.f));
-
-		FSlateBrush BorderBrush;
-		BorderBrush.DrawAs = ESlateBrushDrawType::Box;
-		BorderBrush.SetResourceObject(BorderTexture);
-		Border->SetBrush(BorderBrush);
-
-		// Button below
-		UButton* SelectButton = NewObject<UButton>(this);
-		UTextBlock* ButtonText = NewObject<UTextBlock>(this);
-		ButtonText->SetText(FText::FromString("Select"));
-		SelectButton->AddChild(ButtonText);
-
-		// Add to vertical box
-		EntryBox->AddChild(Border);
-		EntryBox->AddChild(SelectButton);
-
-		// Add to Canvas
-		if (UCanvasPanelSlot* CanvasSlot = Canvas->AddChildToCanvas(EntryBox))
+		USpecialShopCharacterEntry* Entry = CreateWidget<USpecialShopCharacterEntry>(this, CharacterEntryWidgetClass);
+		bool bIsPurchased = PurchasedCharacters.Contains(CharData.CharacterID);
+		Entry->Setup(CharData, bIsPurchased, this);
+		
+		if (UScrollBoxSlot* ScrollBoxElement = Cast<UScrollBoxSlot>(ShopListPanel->AddChild(Entry)))
 		{
-			CanvasSlot->SetAutoSize(true);
-			CanvasSlot->SetPosition(FVector2D(StartX + i * Spacing, StartY));
+			ScrollBoxElement->SetPadding(FMargin(10.f, 0.f));
 		}
 	}
+
+	WidgetSwitcher->SetActiveWidgetIndex(0);
 }

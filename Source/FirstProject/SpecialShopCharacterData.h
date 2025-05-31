@@ -3,19 +3,25 @@
 
 #include "CoreMinimal.h"
 #include "PaperFlipbook.h"
-#include "SpecialMerchantCharacter.generated.h"
+#include "SpecialShopCharacterData.generated.h"
 
 USTRUCT(BlueprintType)
-struct FSpecialMerchantCharacter
+struct FSpecialShopCharacterData
 {
 	GENERATED_BODY()
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UTexture2D* CharacterTexture;
+	FName CharacterID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int Price;
+	FText DisplayName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<UPaperFlipbook*> Stages;
+	UTexture2D* Texture;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Price;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<UPaperFlipbook*> Animations;
 };

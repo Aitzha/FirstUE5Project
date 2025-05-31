@@ -5,7 +5,11 @@
 #include "Blueprint/UserWidget.h"
 #include "SpecialShopMenu.generated.h"
 
-struct FSpecialMerchantCharacter;
+struct FSpecialShopCharacterData;
+class USpecialShopCharacterEntry;
+class UWidgetSwitcher;
+class UCanvasPanel;
+class UButton;
 
 UCLASS()
 class FIRSTPROJECT_API USpecialShopMenu : public UUserWidget
@@ -16,17 +20,21 @@ public:
 	USpecialShopMenu() = delete;
 	USpecialShopMenu(const FObjectInitializer& ObjectInitializer);
 
+	void OnCharacterButtonClicked(FSpecialShopCharacterData* CharacterData);
+
 protected:
 	virtual void NativeConstruct() override;
 	
 	UPROPERTY(meta = (BindWidget))
-	class UCanvasPanel* Canvas;
+	UCanvasPanel* Canvas;
+	UPROPERTY(meta = (BindWidget))
+	UWidgetSwitcher* WidgetSwitcher;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sprites")
 	UTexture2D* BorderTexture;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Characters")
-	TArray<FSpecialMerchantCharacter> Characters;
+	TArray<FSpecialShopCharacterData> Characters;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Parameters")
 	float IconSize = 512.f;
@@ -36,4 +44,14 @@ protected:
 	float StartX = 100.f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Parameters")
 	float StartY = 200.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<USpecialShopCharacterEntry> CharacterEntryWidgetClass;
+
+private:
+	void ShowShopList();
+	TSet<FName> PurchasedCharacters;
+
+	UPROPERTY()
+	TMap<UButton*, FName> ButtonCharacterMap;
 };
