@@ -17,16 +17,15 @@ USpecialShopMenu::USpecialShopMenu(const FObjectInitializer& ObjectInitializer) 
 
 void USpecialShopMenu::OnCharacterButtonClicked(FSpecialShopCharacterData* CharacterData)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Button was pressed for: %s"), *CharacterData->CharacterID.ToString());
 	if (!PurchasedCharacters.Contains(CharacterData->CharacterID))
 	{
 		// Mock purchase
 		PurchasedCharacters.Add(CharacterData->CharacterID);
-		// RefreshShopList();
+		ShowShopList();
 	}
 	else
 	{
-		// ShowCharacterDetails(CharacterData);
+		ShowCharacterDetails(CharacterData);
 	}
 }
 
@@ -50,4 +49,9 @@ void USpecialShopMenu::ShowShopList()
 	}
 
 	WidgetSwitcher->SetActiveWidgetIndex(0);
+}
+
+void USpecialShopMenu::ShowCharacterDetails(FSpecialShopCharacterData* CharacterData)
+{
+	WidgetSwitcher->SetActiveWidgetIndex(1);
 }

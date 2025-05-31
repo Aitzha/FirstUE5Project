@@ -50,6 +50,7 @@ protected:
 
 private:
 	void ShowShopList();
+	void ShowCharacterDetails(FSpecialShopCharacterData* CharacterData);
 	TSet<FName> PurchasedCharacters;
 
 	UPROPERTY()
