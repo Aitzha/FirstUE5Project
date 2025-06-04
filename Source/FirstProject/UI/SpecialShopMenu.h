@@ -5,6 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "SpecialShopMenu.generated.h"
 
+class USpecialShopAnimationView;
 struct FSpecialShopCharacterData;
 class USpecialShopCharacterEntry;
 class UWidgetSwitcher;
@@ -47,6 +48,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<USpecialShopCharacterEntry> CharacterEntryWidgetClass;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<USpecialShopAnimationView> AnimationViewWidgetClass;
 
 private:
 	void ShowShopList();

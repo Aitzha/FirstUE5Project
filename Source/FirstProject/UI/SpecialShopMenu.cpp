@@ -3,6 +3,9 @@
 #include "SpecialShopMenu.h"
 
 #include "SpecialShopCharacterEntry.h"
+#include "SpecialShopAnimationView.h"
+#include "Components/CanvasPanel.h"
+#include "Components/CanvasPanelSlot.h"
 #include "Components/Image.h"
 #include "Components/ScrollBox.h"
 #include "Components/WidgetSwitcher.h"
@@ -53,5 +56,15 @@ void USpecialShopMenu::ShowShopList()
 
 void USpecialShopMenu::ShowCharacterDetails(FSpecialShopCharacterData* CharacterData)
 {
+	UCanvasPanel* AnimationViewPanel = Cast<UCanvasPanel>(WidgetSwitcher->GetWidgetAtIndex(1));
+	AnimationViewPanel->ClearChildren();
+	
+	USpecialShopAnimationView* AnimationView = CreateWidget<USpecialShopAnimationView>(this, AnimationViewWidgetClass);
+
+	if (UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(AnimationViewPanel->AddChild(AnimationView)))
+	{
+		CanvasSlot->SetAnchors(FAnchors(0.f, 0.f, 1.f, 1.f));
+		CanvasSlot->SetOffsets(FMargin(0.f));
+	}
 	WidgetSwitcher->SetActiveWidgetIndex(1);
 }
