@@ -26,7 +26,7 @@ protected:
 	void OnActionButtonClicked();
 
 	UPROPERTY(meta = (BindWidget))
-	UImage* SpriteImage;
+	UImage* ImageElement;
 
 	UPROPERTY(meta = (BindWidget))
 	UButton* ActionButton;

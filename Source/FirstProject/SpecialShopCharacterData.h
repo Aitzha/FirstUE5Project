@@ -17,7 +17,7 @@ struct FSpecialShopCharacterData
 	FText DisplayName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UTexture2D* Texture;
+	UPaperSprite* Sprite;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Price;

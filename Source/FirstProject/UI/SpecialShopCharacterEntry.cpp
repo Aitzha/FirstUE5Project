@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
-
 #include "SpecialShopCharacterEntry.h"
+
+#include "PaperSprite.h"
 #include "SpecialShopMenu.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
@@ -25,10 +26,7 @@ void USpecialShopCharacterEntry::Setup(FSpecialShopCharacterData& Data, bool IsP
 	ParentMenu = Menu;
 
 	// Set image
-	FSlateBrush Brush;
-	Brush.SetResourceObject(CharacterData->Texture);
-	Brush.ImageSize = FVector2D(128, 128);
-	SpriteImage->SetBrush(Brush);
+	ImageElement->SetBrushFromTexture(CharacterData->Sprite->GetBakedTexture());
 
 	// Set button text
 	ButtonLabel->SetText(IsPurchased

@@ -60,11 +60,13 @@ void USpecialShopMenu::ShowCharacterDetails(FSpecialShopCharacterData* Character
 	AnimationViewPanel->ClearChildren();
 	
 	USpecialShopAnimationView* AnimationView = CreateWidget<USpecialShopAnimationView>(this, AnimationViewWidgetClass);
+	AnimationView->Setup(CharacterData->Animations);
 
 	if (UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(AnimationViewPanel->AddChild(AnimationView)))
 	{
 		CanvasSlot->SetAnchors(FAnchors(0.f, 0.f, 1.f, 1.f));
 		CanvasSlot->SetOffsets(FMargin(0.f));
 	}
+	
 	WidgetSwitcher->SetActiveWidgetIndex(1);
 }

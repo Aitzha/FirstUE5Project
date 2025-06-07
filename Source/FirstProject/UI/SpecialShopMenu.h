@@ -37,15 +37,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Characters")
 	TArray<FSpecialShopCharacterData> Characters;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Parameters")
-	float IconSize = 512.f;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Parameters")
-	float Spacing = 542.f;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Parameters")
-	float StartX = 100.f;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Parameters")
-	float StartY = 200.f;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<USpecialShopCharacterEntry> CharacterEntryWidgetClass;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
