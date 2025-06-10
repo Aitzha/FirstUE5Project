@@ -11,6 +11,6 @@ class FIRSTPROJECT_API UMyGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	int32 Money;
+	UPROPERTY(BlueprintReadWrite)
+	int32 Money = 10;
 };

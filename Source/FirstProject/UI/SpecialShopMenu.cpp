@@ -10,7 +10,8 @@
 #include "Components/ScrollBox.h"
 #include "Components/WidgetSwitcher.h"
 #include "Engine/Texture2D.h"
-#include "FirstProject/SpecialShopCharacterData.h"
+#include "FirstProject/Common/MyGameInstance.h"
+#include "FirstProject/Common/SpecialShopCharacterData.h"
 
 class USpecialShopCharacterEntry;
 
@@ -22,9 +23,15 @@ void USpecialShopMenu::OnCharacterButtonClicked(FSpecialShopCharacterData* Chara
 {
 	if (!PurchasedCharacters.Contains(CharacterData->CharacterID))
 	{
-		// Mock purchase
-		PurchasedCharacters.Add(CharacterData->CharacterID);
-		ShowShopList();
+		if (UMyGameInstance* GI = Cast<UMyGameInstance>(GetGameInstance()))
+		{
+			if (GI->Money >= CharacterData->Price)
+			{
+				GI->Money -= CharacterData->Price;
+				PurchasedCharacters.Add(CharacterData->CharacterID);
+				ShowShopList();
+			}
+		}
 	}
 	else
 	{
