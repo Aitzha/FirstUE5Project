@@ -8,6 +8,7 @@
 #include "Components/CanvasPanelSlot.h"
 #include "Components/Image.h"
 #include "Components/ScrollBox.h"
+#include "Components/TextBlock.h"
 #include "Components/WidgetSwitcher.h"
 #include "Engine/Texture2D.h"
 #include "FirstProject/Common/MyGameInstance.h"
@@ -17,20 +18,18 @@ class USpecialShopCharacterEntry;
 
 USpecialShopMenu::USpecialShopMenu(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
+	GI = Cast<UMyGameInstance>(GetGameInstance());
 }
 
 void USpecialShopMenu::OnCharacterButtonClicked(FSpecialShopCharacterData* CharacterData)
 {
 	if (!PurchasedCharacters.Contains(CharacterData->CharacterID))
 	{
-		if (UMyGameInstance* GI = Cast<UMyGameInstance>(GetGameInstance()))
+		if (GI->Money >= CharacterData->Price)
 		{
-			if (GI->Money >= CharacterData->Price)
-			{
-				GI->Money -= CharacterData->Price;
-				PurchasedCharacters.Add(CharacterData->CharacterID);
-				ShowShopList();
-			}
+			GI->Money -= CharacterData->Price;
+			PurchasedCharacters.Add(CharacterData->CharacterID);
+			UpdatePage();
 		}
 	}
 	else
@@ -42,6 +41,12 @@ void USpecialShopMenu::OnCharacterButtonClicked(FSpecialShopCharacterData* Chara
 void USpecialShopMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
+	UpdatePage();
+}
+
+void USpecialShopMenu::UpdatePage()
+{
+	MoneyLabel->SetText(FText::Format(FText::FromString("Gold: {0}"), FText::AsNumber(GI->Money)));
 	ShowShopList();
 }
 

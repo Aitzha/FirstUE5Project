@@ -5,6 +5,8 @@
 #include "Blueprint/UserWidget.h"
 #include "SpecialShopMenu.generated.h"
 
+class UMyGameInstance;
+class UTextBlock;
 class USpecialShopAnimationView;
 struct FSpecialShopCharacterData;
 class USpecialShopCharacterEntry;
@@ -30,6 +32,8 @@ protected:
 	UCanvasPanel* Canvas;
 	UPROPERTY(meta = (BindWidget))
 	UWidgetSwitcher* WidgetSwitcher;
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* MoneyLabel;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sprites")
 	UTexture2D* BorderTexture;
@@ -43,10 +47,10 @@ protected:
 	TSubclassOf<USpecialShopAnimationView> AnimationViewWidgetClass;
 
 private:
+	void UpdatePage();
 	void ShowShopList();
 	void ShowCharacterDetails(FSpecialShopCharacterData* CharacterData);
+	
 	TSet<FName> PurchasedCharacters;
-
-	UPROPERTY()
-	TMap<UButton*, FName> ButtonCharacterMap;
+	UMyGameInstance* GI;
 };
