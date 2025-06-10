@@ -4,6 +4,7 @@
 #include "IndexedButton.h"
 #include "PaperSprite.h"
 #include "PaperFlipbook.h"
+#include "TimerManager.h"
 #include "Components/HorizontalBox.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
