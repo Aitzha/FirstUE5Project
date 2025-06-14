@@ -18,6 +18,10 @@ class FIRSTPROJECT_API USpecialShopCharacterEntry : public UUserWidget
 	
 public:
 	void Setup(FSpecialShopCharacterData& Data, bool IsPurchased, USpecialShopMenu* Menu);
+	
+	void UpdateButtonLabel();
+
+	FSpecialShopCharacterData* CharacterData;
 
 protected:
 	virtual void NativeConstruct() override;
@@ -27,17 +31,11 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	UImage* ImageElement;
-
 	UPROPERTY(meta = (BindWidget))
 	UButton* ActionButton;
-
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* ButtonLabel;
 
 	UPROPERTY()
 	USpecialShopMenu* ParentMenu;
-
-	FSpecialShopCharacterData* CharacterData;
-	
-	bool bIsPurchased;
 };

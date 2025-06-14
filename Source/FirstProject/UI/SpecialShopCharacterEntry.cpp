@@ -8,6 +8,11 @@
 #include "Components/TextBlock.h"
 #include "FirstProject/Common/SpecialShopCharacterData.h"
 
+void USpecialShopCharacterEntry::UpdateButtonLabel()
+{
+	ButtonLabel->SetText(FText::FromString("Select"));
+}
+
 void USpecialShopCharacterEntry::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -16,18 +21,18 @@ void USpecialShopCharacterEntry::NativeConstruct()
 
 void USpecialShopCharacterEntry::OnActionButtonClicked()
 {
-	ParentMenu->OnCharacterButtonClicked(CharacterData);
+	ParentMenu->OnCharacterButtonClicked(this);
 }
 
 void USpecialShopCharacterEntry::Setup(FSpecialShopCharacterData& Data, bool IsPurchased, USpecialShopMenu* Menu)
 {
 	CharacterData = &Data;
-	bIsPurchased = IsPurchased;
 	ParentMenu = Menu;
 	
 	ImageElement->SetBrushFromTexture(CharacterData->Sprite->GetBakedTexture());
-	
+
 	ButtonLabel->SetText(IsPurchased
 		? FText::FromString("Select")
 		: FText::Format(FText::FromString("Buy for {0} Gold"), FText::AsNumber(CharacterData->Price)));
+
 }

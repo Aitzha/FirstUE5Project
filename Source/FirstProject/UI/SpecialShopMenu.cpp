@@ -6,30 +6,30 @@
 #include "SpecialShopAnimationView.h"
 #include "Components/CanvasPanel.h"
 #include "Components/CanvasPanelSlot.h"
+#include "Components/HorizontalBox.h"
 #include "Components/Image.h"
-#include "Components/ScrollBox.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetSwitcher.h"
 #include "Engine/Texture2D.h"
 #include "FirstProject/Common/MyGameInstance.h"
 #include "FirstProject/Common/SpecialShopCharacterData.h"
 
-class USpecialShopCharacterEntry;
-
 USpecialShopMenu::USpecialShopMenu(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	GI = Cast<UMyGameInstance>(GetGameInstance());
 }
 
-void USpecialShopMenu::OnCharacterButtonClicked(FSpecialShopCharacterData* CharacterData)
+void USpecialShopMenu::OnCharacterButtonClicked(USpecialShopCharacterEntry* CharacterEntry)
 {
+	FSpecialShopCharacterData* CharacterData = CharacterEntry->CharacterData;
 	if (!PurchasedCharacters.Contains(CharacterData->CharacterID))
 	{
 		if (GI->Money >= CharacterData->Price)
 		{
 			GI->Money -= CharacterData->Price;
 			PurchasedCharacters.Add(CharacterData->CharacterID);
-			UpdatePage();
+			CharacterEntry->UpdateButtonLabel();
+			MoneyLabel->SetText(FText::AsNumber(GI->Money));
 		}
 	}
 	else
@@ -41,29 +41,23 @@ void USpecialShopMenu::OnCharacterButtonClicked(FSpecialShopCharacterData* Chara
 void USpecialShopMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
-	UpdatePage();
+	CreateShopPage();
+	WidgetSwitcher->SetActiveWidgetIndex(0);
 }
 
-void USpecialShopMenu::UpdatePage()
+void USpecialShopMenu::CreateShopPage()
 {
-	MoneyLabel->SetText(FText::Format(FText::FromString("Gold: {0}"), FText::AsNumber(GI->Money)));
-	ShowShopList();
-}
-
-void USpecialShopMenu::ShowShopList()
-{
-	UScrollBox* ShopListPanel = Cast<UScrollBox>(WidgetSwitcher->GetWidgetAtIndex(0));
-	ShopListPanel->ClearChildren();
+	CharactersContainer->ClearChildren();
 
 	for (FSpecialShopCharacterData& CharData : Characters)
 	{
 		USpecialShopCharacterEntry* Entry = CreateWidget<USpecialShopCharacterEntry>(this, CharacterEntryWidgetClass);
 		bool bIsPurchased = PurchasedCharacters.Contains(CharData.CharacterID);
 		Entry->Setup(CharData, bIsPurchased, this);
-		ShopListPanel->AddChild(Entry);
+		CharactersContainer->AddChild(Entry);
 	}
 
-	WidgetSwitcher->SetActiveWidgetIndex(0);
+	MoneyLabel->SetText(FText::AsNumber(GI->Money));
 }
 
 void USpecialShopMenu::ShowCharacterDetails(FSpecialShopCharacterData* CharacterData)

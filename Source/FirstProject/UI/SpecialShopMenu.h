@@ -5,14 +5,13 @@
 #include "Blueprint/UserWidget.h"
 #include "SpecialShopMenu.generated.h"
 
+class UHorizontalBox;
 class UMyGameInstance;
 class UTextBlock;
 class USpecialShopAnimationView;
 struct FSpecialShopCharacterData;
 class USpecialShopCharacterEntry;
 class UWidgetSwitcher;
-class UCanvasPanel;
-class UButton;
 
 UCLASS()
 class FIRSTPROJECT_API USpecialShopMenu : public UUserWidget
@@ -23,17 +22,17 @@ public:
 	USpecialShopMenu() = delete;
 	USpecialShopMenu(const FObjectInitializer& ObjectInitializer);
 
-	void OnCharacterButtonClicked(FSpecialShopCharacterData* CharacterData);
+	void OnCharacterButtonClicked(USpecialShopCharacterEntry* CharacterEntry);
 
 protected:
 	virtual void NativeConstruct() override;
 	
 	UPROPERTY(meta = (BindWidget))
-	UCanvasPanel* Canvas;
-	UPROPERTY(meta = (BindWidget))
 	UWidgetSwitcher* WidgetSwitcher;
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* MoneyLabel;
+	UPROPERTY(meta = (BindWidget))
+	UHorizontalBox* CharactersContainer;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sprites")
 	UTexture2D* BorderTexture;
@@ -47,8 +46,7 @@ protected:
 	TSubclassOf<USpecialShopAnimationView> AnimationViewWidgetClass;
 
 private:
-	void UpdatePage();
-	void ShowShopList();
+	void CreateShopPage();
 	void ShowCharacterDetails(FSpecialShopCharacterData* CharacterData);
 	
 	TSet<FName> PurchasedCharacters;
